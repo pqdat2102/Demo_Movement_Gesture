@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -23,6 +24,15 @@ public class PlayerActions : MonoBehaviour
     // Set States in Event Handler
     private string _leftHandStateName;
     private string _rightHandStateName;
+
+
+    //Dash
+    public float dashCooldown = 2.0f;
+    public float dashCooldownDelta = -1.0f;
+    public float dashTime = 0.2f;
+    public float dashTimeDelta = 0.2f;
+
+
     public string rightHandStateName
     {
         get => _rightHandStateName;
@@ -62,6 +72,8 @@ public class PlayerActions : MonoBehaviour
     private void Update()
     {
         HandleCooldown();
+        HandleDashCooldown();
+
         rightHandState?.Invoke();
         leftHandState?.Invoke();
     }
@@ -75,6 +87,21 @@ public class PlayerActions : MonoBehaviour
         playerTransform.position += leftHandTransform.forward * 3.0f * Time.deltaTime;
     }
 
+    void DashDitectionPoint()
+    {
+        if (dashCooldownDelta < 0 && dashTimeDelta > 0)
+        {
+            playerTransform.position += leftHandTransform.forward * 20.0f * Time.deltaTime;
+            dashTimeDelta -= Time.deltaTime;
+
+            if (dashTimeDelta < 0)
+            {
+                dashCooldownDelta = dashCooldown;
+                dashTimeDelta = dashTime;
+            }
+        }
+    }
+
     /// <summary>
     /// Fires the action if the cooldown is not active.
     /// </summary>
@@ -82,6 +109,7 @@ public class PlayerActions : MonoBehaviour
     {
         if (!cooldown)
         {
+            modelShow.GetComponent<Unity.FPS.Game.WeaponController>().HandleShootInputs(false, true, false);
             handMaterial.color = new Color(1f, 1f, 1f, 0f);
             count += 1f;
             modelShow.SetActive(true);
@@ -122,6 +150,14 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
+    private void HandleDashCooldown()
+    {
+        if (dashCooldownDelta > 0)
+        {
+            dashCooldownDelta -= Time.deltaTime;
+        }
+    }
+
     private void HandleStates()
     {
         switch (rightHandStateName)
@@ -141,6 +177,9 @@ public class PlayerActions : MonoBehaviour
         {
             case "MoveDirectionPoint":
                 leftHandState = MoveDirectionPoint;
+                break;
+            case "DashDirectionPoint":
+                leftHandState = DashDitectionPoint;
                 break;
             default:
                 leftHandState = null;
