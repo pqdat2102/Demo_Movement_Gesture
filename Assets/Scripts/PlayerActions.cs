@@ -15,6 +15,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] GameObject modelShow;
     [Header("Both Hands")]
     [SerializeField] Material handMaterial;
+    [SerializeField] GameObject ShieldModel;
 
     // Current HandStates
     private delegate void HandState();
@@ -128,6 +129,16 @@ public class PlayerActions : MonoBehaviour
         modelShow.SetActive(false);
     }
 
+    private void Shield()
+    {
+        ShieldModel.SetActive(true);
+    }   
+    
+    private void UnShield()
+    {
+        ShieldModel.SetActive(false);
+    }    
+
     /// <summary>
     /// Handles the cooldown logic.
     /// </summary>
@@ -167,6 +178,12 @@ public class PlayerActions : MonoBehaviour
                 break;
             case "StopFiring":
                 rightHandState = StopFiring;
+                break;
+            case "Shield":
+                rightHandState = Shield;
+                break;
+            case "UnShield":
+                rightHandState = UnShield;
                 break;
             default:
                 rightHandState = null;
