@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,7 +10,6 @@ public class PlayerActions : MonoBehaviour
     [Header("Player")]
     [SerializeField] Transform playerTransform;
     [SerializeField] float playerSpeed = 5.0f;
-    [SerializeField] CharacterController control;
 
     [Header("Left Hand")]
     [SerializeField] Transform leftHandTransform;
@@ -88,9 +87,17 @@ public class PlayerActions : MonoBehaviour
     /// </summary>
     void MoveDirectionPoint()
     {
-        // += Vector3(x, y, z);
+        //// += Vector3(x, y, z);
         //playerTransform.position += leftHandTransform.forward * playerSpeed * Time.deltaTime;
-        control.Move(leftHandTransform.forward * playerSpeed * Time.deltaTime);
+
+        // Lấy vector forward từ leftHandTransform
+        Vector3 moveDirection = leftHandTransform.forward * playerSpeed * Time.deltaTime;
+
+        // Chỉ giữ lại thành phần X và Z, đặt Y = 0
+        moveDirection.y = 0f;
+
+        // Di chuyển playerTransform chỉ trên trục X và Z
+        playerTransform.position += moveDirection;
     }
 
     void DashDitectionPoint()
