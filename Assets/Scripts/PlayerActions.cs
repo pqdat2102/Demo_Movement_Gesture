@@ -9,6 +9,9 @@ public class PlayerActions : MonoBehaviour
 {
     [Header("Player")]
     [SerializeField] Transform playerTransform;
+    [SerializeField] float playerSpeed = 5.0f;
+    [SerializeField] CharacterController control;
+
     [Header("Left Hand")]
     [SerializeField] Transform leftHandTransform;
     [Header("Right Hand")]
@@ -16,6 +19,7 @@ public class PlayerActions : MonoBehaviour
     [Header("Both Hands")]
     [SerializeField] Material handMaterial;
     [SerializeField] GameObject ShieldModel;
+    
 
     // Current HandStates
     private delegate void HandState();
@@ -85,7 +89,8 @@ public class PlayerActions : MonoBehaviour
     void MoveDirectionPoint()
     {
         // += Vector3(x, y, z);
-        playerTransform.position += leftHandTransform.forward * 3.0f * Time.deltaTime;
+        //playerTransform.position += leftHandTransform.forward * playerSpeed * Time.deltaTime;
+        control.Move(leftHandTransform.forward * playerSpeed * Time.deltaTime);
     }
 
     void DashDitectionPoint()
