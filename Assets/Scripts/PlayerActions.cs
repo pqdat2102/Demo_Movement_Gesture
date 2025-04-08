@@ -104,7 +104,16 @@ public class PlayerActions : MonoBehaviour
     {
         if (dashCooldownDelta < 0 && dashTimeDelta > 0)
         {
-            playerTransform.position += leftHandTransform.forward * 20.0f * Time.deltaTime;
+
+            // Lấy vector forward từ leftHandTransform
+            Vector3 moveDirection = leftHandTransform.forward * 20.0f * Time.deltaTime;
+
+            // Chỉ giữ lại thành phần X và Z, đặt Y = 0
+            moveDirection.y = 0f;
+
+            // Di chuyển playerTransform chỉ trên trục X và Z
+            playerTransform.position += moveDirection;
+
             dashTimeDelta -= Time.deltaTime;
 
             if (dashTimeDelta < 0)
