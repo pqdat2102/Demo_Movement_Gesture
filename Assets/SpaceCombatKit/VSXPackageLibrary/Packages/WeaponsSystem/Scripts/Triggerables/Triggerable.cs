@@ -102,6 +102,20 @@ namespace VSX.Weapons
         // Action event
         public UnityEvent onAction;
 
+        public bool trigger;
+
+        private void Update()
+        {
+            if (trigger)
+            {
+                trigger = false;
+                StartTriggering();
+            }    
+            else
+            {
+                StopTriggering();
+            }    
+        }
 
         public virtual float FireRate
         {

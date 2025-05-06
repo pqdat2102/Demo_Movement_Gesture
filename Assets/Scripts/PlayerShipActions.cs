@@ -102,11 +102,11 @@ public class PlayerShipActions : MonoBehaviour
     /// </summary>
     private void Firing()
     {
-
+        spaceshipController.HandleFire(true);
     }
     private void StopFiring()
     {
-
+        spaceshipController.HandleFire(false);
     }
 
     /// <summary>

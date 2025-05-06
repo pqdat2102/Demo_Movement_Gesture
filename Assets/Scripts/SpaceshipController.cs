@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using VSX.Vehicles;
+using VSX.Weapons;
 
 public class SpaceshipController : MonoBehaviour
 {
@@ -21,13 +23,24 @@ public class SpaceshipController : MonoBehaviour
 
     private Rigidbody rb;
 
+    private Triggerable triggerable;
+
     void Start()
     {
         // Lấy component Rigidbody
         rb = GetComponent<Rigidbody>();
         // Đảm bảo Rigidbody không bị ảnh hưởng bởi trọng lực
         rb.useGravity = false;
+
+        triggerable = GetComponentInChildren<Triggerable>();
     }
+
+    public void HandleFire(bool state)
+    {
+        if (triggerable == null) triggerable = GetComponentInChildren<Triggerable>();
+        if (state) triggerable.StartTriggering();
+        else triggerable.StopTriggering();
+    }    
 
     // Hàm xử lý gesture Thumb Up (pitch lên trong hệ local, không di chuyển, không yaw/roll)
     public void HandleThumbUp(Transform leftHandTransform)
