@@ -7,13 +7,11 @@ using UnityEngine.XR;
 
 public class PlayerShipActions : MonoBehaviour
 {
-    [Header("Player")]
-    [SerializeField] Transform playerTransform;
-
     [Header("Vehicle Control")]
     [SerializeField] SpaceshipController spaceshipController;
     [Header("Left Hand")]
-    [SerializeField] Transform leftHandTransform;
+    [SerializeField] Transform leftHandPoke;
+    [SerializeField] Transform leftHandDirect;
 
     // Current HandStates
     private delegate void HandState();
@@ -25,6 +23,7 @@ public class PlayerShipActions : MonoBehaviour
     private string _rightHandStateName;
 
     //Dash
+    [Header("Dash")]
     public float dashCooldown = 2.0f;
     public float dashCooldownDelta = -1.0f;
     public float dashTime = 0.2f;
@@ -78,14 +77,24 @@ public class PlayerShipActions : MonoBehaviour
     /// <summary>
     /// Moves the player in the direction of the left hand transform.
     /// </summary>
-    void MoveDirectionPoint()
+    void PointDirectionPoint()
     {
-        spaceshipController.HandleGesture(leftHandTransform, false);
+        spaceshipController.HandlePoint(leftHandPoke);
+    } 
+
+    void PalmDirectionPoint()
+    {
+        spaceshipController.HandlePalm(leftHandPoke);
     }
 
-    void DashDitectionPoint()
+    void ThumbUpDirection()
     {
-        spaceshipController.HandleGesture(leftHandTransform, true);
+        spaceshipController.HandleThumbUp(leftHandDirect);
+    }
+
+    void ThumbDownDirection()
+    {
+        spaceshipController.HandleThumbDown(leftHandDirect);
     }
 
     /// <summary>
@@ -93,11 +102,11 @@ public class PlayerShipActions : MonoBehaviour
     /// </summary>
     private void Firing()
     {
-
+        spaceshipController.HandleFire(true);
     }
     private void StopFiring()
     {
-
+        spaceshipController.HandleFire(false);
     }
 
     /// <summary>
@@ -147,11 +156,17 @@ public class PlayerShipActions : MonoBehaviour
 
         switch (leftHandStateName)
         {
-            case "MoveDirectionPoint":
-                leftHandState = MoveDirectionPoint;
+            case "PointDirectionPoint":
+                leftHandState = PointDirectionPoint;
                 break;
-            case "DashDirectionPoint":
-                leftHandState = DashDitectionPoint;
+            case "PalmDirectionPoint":
+                leftHandState = PalmDirectionPoint;
+                break;
+            case "ThumbUpDirection":
+                leftHandState = ThumbUpDirection;
+                break;
+            case "ThumbDownDirection":
+                leftHandState = ThumbDownDirection;
                 break;
             default:
                 leftHandState = null;
