@@ -92,6 +92,7 @@ public class PlayerActions : MonoBehaviour
 
         // Lấy vector forward từ leftHandTransform
         Vector3 moveDirection = leftHandTransform.forward * playerSpeed * Time.deltaTime;
+        Debug.Log(leftHandTransform.forward);
 
         // Chỉ giữ lại thành phần X và Z, đặt Y = 0
         moveDirection.y = 0f;
