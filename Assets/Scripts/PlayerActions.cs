@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -8,12 +9,16 @@ public class PlayerActions : MonoBehaviour
 {
     [Header("Player")]
     [SerializeField] Transform playerTransform;
+    [SerializeField] float playerSpeed = 5.0f;
+
     [Header("Left Hand")]
     [SerializeField] Transform leftHandTransform;
     [Header("Right Hand")]
     [SerializeField] GameObject modelShow;
     [Header("Both Hands")]
     [SerializeField] Material handMaterial;
+    [SerializeField] GameObject ShieldModel;
+    
 
     // Current HandStates
     private delegate void HandState();
@@ -23,6 +28,15 @@ public class PlayerActions : MonoBehaviour
     // Set States in Event Handler
     private string _leftHandStateName;
     private string _rightHandStateName;
+
+
+    //Dash
+    public float dashCooldown = 2.0f;
+    public float dashCooldownDelta = -1.0f;
+    public float dashTime = 0.2f;
+    public float dashTimeDelta = 0.2f;
+
+
     public string rightHandStateName
     {
         get => _rightHandStateName;
@@ -62,6 +76,8 @@ public class PlayerActions : MonoBehaviour
     private void Update()
     {
         HandleCooldown();
+        HandleDashCooldown();
+
         rightHandState?.Invoke();
         leftHandState?.Invoke();
     }
@@ -71,8 +87,42 @@ public class PlayerActions : MonoBehaviour
     /// </summary>
     void MoveDirectionPoint()
     {
-        // += Vector3(x, y, z);
-        playerTransform.position += leftHandTransform.forward * 3.0f * Time.deltaTime;
+        //// += Vector3(x, y, z);
+        //playerTransform.position += leftHandTransform.forward * playerSpeed * Time.deltaTime;
+
+        // Lấy vector forward từ leftHandTransform
+        Vector3 moveDirection = leftHandTransform.forward * playerSpeed * Time.deltaTime;
+        Debug.Log(leftHandTransform.forward);
+
+        // Chỉ giữ lại thành phần X và Z, đặt Y = 0
+        moveDirection.y = 0f;
+
+        // Di chuyển playerTransform chỉ trên trục X và Z
+        playerTransform.position += moveDirection;
+    }
+
+    void DashDitectionPoint()
+    {
+        if (dashCooldownDelta < 0 && dashTimeDelta > 0)
+        {
+
+            // Lấy vector forward từ leftHandTransform
+            Vector3 moveDirection = leftHandTransform.forward * 20.0f * Time.deltaTime;
+
+            // Chỉ giữ lại thành phần X và Z, đặt Y = 0
+            moveDirection.y = 0f;
+
+            // Di chuyển playerTransform chỉ trên trục X và Z
+            playerTransform.position += moveDirection;
+
+            dashTimeDelta -= Time.deltaTime;
+
+            if (dashTimeDelta < 0)
+            {
+                dashCooldownDelta = dashCooldown;
+                dashTimeDelta = dashTime;
+            }
+        }
     }
 
     /// <summary>
@@ -82,6 +132,7 @@ public class PlayerActions : MonoBehaviour
     {
         if (!cooldown)
         {
+            modelShow.GetComponent<Unity.FPS.Game.WeaponController>().HandleShootInputs(false, true, false);
             handMaterial.color = new Color(1f, 1f, 1f, 0f);
             count += 1f;
             modelShow.SetActive(true);
@@ -99,6 +150,16 @@ public class PlayerActions : MonoBehaviour
         count -= 1f;
         modelShow.SetActive(false);
     }
+
+    private void Shield()
+    {
+        ShieldModel.SetActive(true);
+    }   
+    
+    private void UnShield()
+    {
+        ShieldModel.SetActive(false);
+    }    
 
     /// <summary>
     /// Handles the cooldown logic.
@@ -122,6 +183,14 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
+    private void HandleDashCooldown()
+    {
+        if (dashCooldownDelta > 0)
+        {
+            dashCooldownDelta -= Time.deltaTime;
+        }
+    }
+
     private void HandleStates()
     {
         switch (rightHandStateName)
@@ -132,6 +201,12 @@ public class PlayerActions : MonoBehaviour
             case "StopFiring":
                 rightHandState = StopFiring;
                 break;
+            case "Shield":
+                rightHandState = Shield;
+                break;
+            case "UnShield":
+                rightHandState = UnShield;
+                break;
             default:
                 rightHandState = null;
                 break;
@@ -141,6 +216,9 @@ public class PlayerActions : MonoBehaviour
         {
             case "MoveDirectionPoint":
                 leftHandState = MoveDirectionPoint;
+                break;
+            case "DashDirectionPoint":
+                leftHandState = DashDitectionPoint;
                 break;
             default:
                 leftHandState = null;
