@@ -5,7 +5,7 @@ using VSX.Weapons;
 public class SpaceshipController : MonoBehaviour
 {
     // Tốc độ di chuyển (ngang và dọc)
-    public float moveSpeed = 20f;
+    public float moveSpeed = 30f;
     // Tốc độ xoay/nghiêng
     public float rotationSpeed = 150f;
     // Lực tăng tốc về phía trước
@@ -17,9 +17,9 @@ public class SpaceshipController : MonoBehaviour
     // Ngưỡng góc roll để xác định trái/phải (độ)
     public float rollThreshold = 0.1f;
     // Ngưỡng góc lệch cho yaw nhanh (độ)
-    public float yawAngleThreshold = 90f;
+    public float yawAngleThreshold = 60f;
     // Hệ số tăng tốc độ yaw khi vượt ngưỡng
-    public float yawSpeedMultiplier = 8f;
+    public float yawSpeedMultiplier = 7f;
 
     private Rigidbody rb;
 
@@ -46,7 +46,7 @@ public class SpaceshipController : MonoBehaviour
     public void HandleThumbUp(Transform leftHandTransform)
     {
         // Nghiêng lên (pitch âm quanh trục X local)
-        Vector3 rotationTorque = new Vector3(-rotationSpeed * pitchIntensity, 0f, 0f) * Time.deltaTime;
+        Vector3 rotationTorque = new Vector3(-rotationSpeed * yawSpeedMultiplier * pitchIntensity, 0f, 0f) * Time.deltaTime;
         rb.AddTorque(transform.right * rotationTorque.x, ForceMode.Force);
 
         // Debug
@@ -58,7 +58,7 @@ public class SpaceshipController : MonoBehaviour
     public void HandleThumbDown(Transform leftHandTransform)
     {
         // Nghiêng xuống (pitch dương quanh trục X local)
-        Vector3 rotationTorque = new Vector3(rotationSpeed * pitchIntensity, 0f, 0f) * Time.deltaTime;
+        Vector3 rotationTorque = new Vector3(rotationSpeed * yawSpeedMultiplier * pitchIntensity, 0f, 0f) * Time.deltaTime;
         rb.AddTorque(transform.right * rotationTorque.x, ForceMode.Force);
 
         // Debug
