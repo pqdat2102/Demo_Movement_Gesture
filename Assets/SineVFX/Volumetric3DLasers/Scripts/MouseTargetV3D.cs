@@ -5,6 +5,7 @@ using UnityEngine;
 public class MouseTargetV3D : MonoBehaviour {
 
     public Transform targetCursor;
+    public Transform targetObject;
     public float speed = 1f;
 
     private Vector3 mouseWorldPosition;
@@ -12,13 +13,15 @@ public class MouseTargetV3D : MonoBehaviour {
     // Positioning cursor prefab
     void FixedUpdate () {  
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
-        {
-            mouseWorldPosition = hit.point;
-        }
+        //if (Physics.Raycast(ray, out hit))
+        //{
+        //    mouseWorldPosition = hit.point;
+        //}
+
+        mouseWorldPosition = targetObject.position;
 
         Quaternion toRotation = Quaternion.LookRotation(mouseWorldPosition - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, speed * Time.deltaTime);

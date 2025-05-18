@@ -3525,6 +3525,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1865146581}
     m_Modifications:
+    - target: {fileID: 1418937581795076, guid: 1a5c3e30cf7640b6aebe3c433895fd9a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1833734590609758, guid: 1a5c3e30cf7640b6aebe3c433895fd9a, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3561,12 +3565,62 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 114045167607473352, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: shaderImpactCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114045167607473352, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114334699196459174, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: impactCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114334699196459174, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: progressCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502382105241190, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: impactCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114502382105241190, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: progressCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114735251016604850, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: shaderImpactCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114735251016604850, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: shaderProgressCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909304652587160, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: ac.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 199184088680043162, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
         type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 199641002199446372, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 199885003498204748, guid: 1a5c3e30cf7640b6aebe3c433895fd9a,
         type: 3}
       propertyPath: m_Materials.Array.size
       value: 1

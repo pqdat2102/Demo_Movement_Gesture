@@ -10,6 +10,24 @@ public class SFXControllerV3D : MonoBehaviour
     public GameObject[] waveSfxPrefabs;
 
     private float globalProgress;
+    private bool _isAttack;
+    private bool _isStartAttack;
+
+    public void Attack(bool state)
+    {
+        _isAttack = state;
+        if (_isAttack) _isStartAttack = true;
+    }
+    public bool AttackStart()
+    {
+        if (_isStartAttack)
+        {
+            _isStartAttack = false;
+            return true;
+        }
+
+        return false;
+    }
 
     public void SetGlobalProgress(float gp)
     {

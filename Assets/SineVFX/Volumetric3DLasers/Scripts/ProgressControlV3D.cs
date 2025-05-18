@@ -26,6 +26,8 @@ public class ProgressControlV3D : MonoBehaviour {
     private LaserLineV3D[] lls;
     private LightLineV3D[] lils;
     private Renderer[] renderers;
+    private bool _isAttack;
+    private bool _isStartAttack;
 
     private void Start()
     {
@@ -40,6 +42,22 @@ public class ProgressControlV3D : MonoBehaviour {
     {
         finalColor = color;
     }
+
+    public void Attack(bool state)
+    {
+        _isAttack = state;
+        _isStartAttack = true;
+    }    
+    public bool AttackStart()
+    {
+        if (_isStartAttack)
+        {
+            _isStartAttack = false;
+            return true;
+        }
+
+        return false;
+    }    
 
     void Update()
     {
@@ -87,17 +105,18 @@ public class ProgressControlV3D : MonoBehaviour {
             globalImpactProgress += Time.deltaTime * globalImpactProgressSpeed;
         }
 
-        if (Input.GetMouseButton(0) || always == true)
+        if (_isAttack || always == true)
         {
             globalProgress = 0f;
             endPointEffect.emit = true;
+            
         }
         else
         {
             endPointEffect.emit = false;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (AttackStart())
         {
             globalImpactProgress = 0f;
         }
