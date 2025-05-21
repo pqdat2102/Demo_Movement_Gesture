@@ -13,12 +13,19 @@ public class PlayerActions : MonoBehaviour
 
     [Header("Left Hand")]
     [SerializeField] Transform leftHandTransform;
+    [Header("Left Hand Direct")]
+    [SerializeField] Transform leftHandDirectTransform;
     [Header("Right Hand")]
     [SerializeField] GameObject modelShow;
     [Header("Both Hands")]
     [SerializeField] Material handMaterial;
     [SerializeField] GameObject ShieldModel;
-    
+    [Header("Teleport")]
+    [SerializeField] private LayerMask teleportLayer; // Layer Teleport
+    [SerializeField] private float maxDistance = 100f; // Khoảng cách tối đa của tia
+    [SerializeField] private GameObject teleportLocation; // GameObject teleportLocation
+    [SerializeField] private GameObject teleportParticle; // GameObject teleportParticle
+    [SerializeField] private float particleDuration = 2f; // Thời gian particle hoạt động (giây)
 
     // Current HandStates
     private delegate void HandState();
@@ -29,13 +36,13 @@ public class PlayerActions : MonoBehaviour
     private string _leftHandStateName;
     private string _rightHandStateName;
 
-
+    [Space(10)]
     //Dash
+    [Header("Dash")]
     public float dashCooldown = 2.0f;
     public float dashCooldownDelta = -1.0f;
     public float dashTime = 0.2f;
     public float dashTimeDelta = 0.2f;
-
 
     public string rightHandStateName
     {
@@ -191,6 +198,72 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
+    void Teleport_Aim()
+    {
+        teleportLocation.SetActive(true);
+        if (leftHandDirectTransform == null || teleportLocation == null)
+        {
+            Debug.LogWarning("leftHandDirectTransform hoặc teleportLocation chưa được gán!");
+            return;
+        }
+
+        // Chiếu tia từ vị trí và hướng của leftHandDirectTransform
+        Ray ray = new Ray(leftHandDirectTransform.position, leftHandDirectTransform.forward);
+        RaycastHit hit;
+
+        // Kiểm tra va chạm với các layer Default hoặc Teleport
+        if (Physics.Raycast(ray, out hit, maxDistance, LayerMask.GetMask("Default", "Teleport")))
+        {
+            // Kiểm tra nếu đối tượng trúng là trigger và có layer Teleport
+            if (hit.collider.isTrigger && hit.collider.gameObject.layer == LayerMask.NameToLayer("Teleport"))
+            {
+                // Đặt teleportLocation đến vị trí điểm trúng
+                teleportLocation.transform.position = hit.point;
+                Debug.Log($"TeleportLocation đặt tại: {hit.point} (Trigger Teleport)");
+            }
+            // Kiểm tra nếu trúng layer Default
+            else if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Default"))
+            {
+                // Đặt teleportLocation đến vị trí điểm trúng
+                teleportLocation.transform.position = hit.point;
+                Debug.Log($"TeleportLocation đặt tại: {hit.point} (Default Layer)");
+            }
+        }
+    }
+
+    public void Teleport_Start()
+    {
+        leftHandStateName = "default";
+        teleportLocation.SetActive(false);
+
+        if (teleportLocation == null)
+        {
+            Debug.LogWarning("teleportLocation không tồn tại!");
+            return;
+        }
+        if (teleportParticle == null)
+        {
+            Debug.LogWarning("teleportParticle không tồn tại!");
+            return;
+        }
+
+        transform.position = teleportLocation.transform.position;
+
+        // Kích hoạt particle và lên lịch tắt sau 2 giây
+        teleportParticle.SetActive(true);
+        teleportParticle.GetComponent<SmartWaveParticlesControllerV3D>().SetGlobalProgress(1.0f);
+        Invoke(nameof(DeactivateParticle), particleDuration);
+    }
+
+    private void DeactivateParticle()
+    {
+        // Tắt particle sau khi hết thời gian
+        if (teleportParticle != null)
+        {
+            teleportParticle.SetActive(false);
+        }
+    }
+
     private void HandleStates()
     {
         switch (rightHandStateName)
@@ -219,6 +292,12 @@ public class PlayerActions : MonoBehaviour
                 break;
             case "DashDirectionPoint":
                 leftHandState = DashDitectionPoint;
+                break;
+            case "Teleport_Aim":
+                leftHandState = Teleport_Aim;
+                break;
+            case "Teleport_Start":
+                leftHandState = Teleport_Start;
                 break;
             default:
                 leftHandState = null;
