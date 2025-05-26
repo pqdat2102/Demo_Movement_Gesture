@@ -20,6 +20,7 @@ public class SpaceshipController : MonoBehaviour
     public float yawAngleThreshold = 60f;
     // Hệ số tăng tốc độ yaw khi vượt ngưỡng
     public float yawSpeedMultiplier = 7f;
+    public SpaceFighterAimControl spaceFighterAim;
 
     private Rigidbody rb;
 
@@ -91,6 +92,12 @@ public class SpaceshipController : MonoBehaviour
         // Di chuyển theo XZ local (thẳng hoặc trái/phải)
         float forwardComponent = handForwardInShipXZ.z; // Thành phần forward local
         float rightComponent = handForwardInShipXZ.x;   // Thành phần right local
+        
+        if (angleBetween <= 15f || spaceFighterAim.IsAiming)
+        {
+            rightComponent = 0f;
+        }
+
         Vector3 moveDirection = transform.forward * forwardComponent + transform.right * rightComponent;
         rb.AddForce(moveDirection * adjustedSpeed, ForceMode.Force);
 

@@ -6534,6 +6534,7 @@ MonoBehaviour:
   rollThreshold: 0.1
   yawAngleThreshold: 60
   yawSpeedMultiplier: 6
+  spaceFighterAim: {fileID: 434601518}
 --- !u!114 &434601514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6760,12 +6761,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   searchRadius: 1500
-  rotationSpeed: 150
+  rotationSpeed: 5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 32768
   targetEnemy: {fileID: 0}
   isAiming: 0
+  minAngleThreshold: 2
 --- !u!1 &435290297
 GameObject:
   m_ObjectHideFlags: 0

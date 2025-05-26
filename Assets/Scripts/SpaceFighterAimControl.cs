@@ -9,6 +9,9 @@ public class SpaceFighterAimControl : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer; // Layer for enemies
     [SerializeField] private Transform targetEnemy; // Current target enemy
     [SerializeField] private bool isAiming = false; // Track if aiming is active
+    [SerializeField] private float minAngleThreshold = 2f; // Minimum angle to 
+    // Public property to check aiming state
+    public bool IsAiming => isAiming;
 
 
     // Update is called once per frame
@@ -62,9 +65,22 @@ public class SpaceFighterAimControl : MonoBehaviour
     // Rotate the aircraft towards the target enemy
     private void RotateTowardsTarget()
     {
+        // Calculate direction to target
         Vector3 directionToTarget = (targetEnemy.position - transform.position).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        // Calculate angle between current forward and target direction
+        float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
+
+        // Stop rotation if angle is below threshold to prevent jittering
+        if (angleToTarget <= minAngleThreshold)
+        {
+            return;
+        }
+
+        // Smoothly rotate towards target
+        float t = rotationSpeed * Time.deltaTime / angleToTarget; // Normalize speed based on angle
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, t);
     }
 
     // Draw search radius in Scene view
