@@ -43,7 +43,7 @@ namespace Unity.FPS.AI
             DebugUtility.HandleErrorIfNullFindObject<ActorsManager, DetectionModule>(m_ActorsManager, this);
         }
 
-        public virtual void HandleTargetDetection(Actor actor, Collider[] selfColliders)
+        public virtual void HandleTargetDetection(Collider[] selfColliders)
         {
             // Handle known target detection timeout
             if (KnownDetectedTarget && !IsSeeingTarget && (Time.time - TimeLastSeenTarget) > KnownTargetTimeout)
@@ -51,20 +51,35 @@ namespace Unity.FPS.AI
                 KnownDetectedTarget = null;
             }
 
-            // Find the closest visible hostile actor
+            // Find the closest visible GameObject with Player layer and AimObject tag
             float sqrDetectionRange = DetectionRange * DetectionRange;
             IsSeeingTarget = false;
             float closestSqrDistance = Mathf.Infinity;
-            foreach (Actor otherActor in m_ActorsManager.Actors)
+            int playerLayer = LayerMask.NameToLayer("Player");
+            Collider[] potentialTargets = Physics.OverlapSphere(DetectionSourcePoint.position, DetectionRange, 1 << playerLayer);
+
+            foreach (Collider target in potentialTargets)
             {
-                if (otherActor.Affiliation != actor.Affiliation)
+                // Find the AimObject in the target's hierarchy
+                GameObject aimObject = null;
+                if (target.gameObject.CompareTag("AimObject"))
                 {
-                    float sqrDistance = (otherActor.transform.position - DetectionSourcePoint.position).sqrMagnitude;
+                    aimObject = target.gameObject;
+                }
+                else
+                {
+                    aimObject = target.gameObject.GetComponentsInChildren<Transform>()
+                        .FirstOrDefault(t => t.CompareTag("AimObject"))?.gameObject;
+                }
+
+                if (aimObject != null)
+                {
+                    float sqrDistance = (aimObject.transform.position - DetectionSourcePoint.position).sqrMagnitude;
                     if (sqrDistance < sqrDetectionRange && sqrDistance < closestSqrDistance)
                     {
                         // Check for obstructions
                         RaycastHit[] hits = Physics.RaycastAll(DetectionSourcePoint.position,
-                            (otherActor.AimPoint.position - DetectionSourcePoint.position).normalized, DetectionRange,
+                            (aimObject.transform.position - DetectionSourcePoint.position).normalized, DetectionRange,
                             -1, QueryTriggerInteraction.Ignore);
                         RaycastHit closestValidHit = new RaycastHit();
                         closestValidHit.distance = Mathf.Infinity;
@@ -78,35 +93,28 @@ namespace Unity.FPS.AI
                             }
                         }
 
-                        if (foundValidHit)
+                        if (foundValidHit && closestValidHit.collider.gameObject.layer == playerLayer)
                         {
-                            Actor hitActor = closestValidHit.collider.GetComponentInParent<Actor>();
-                            if (hitActor == otherActor)
-                            {
-                                IsSeeingTarget = true;
-                                closestSqrDistance = sqrDistance;
-
-                                TimeLastSeenTarget = Time.time;
-                                KnownDetectedTarget = otherActor.AimPoint.gameObject;
-                            }
+                            IsSeeingTarget = true;
+                            closestSqrDistance = sqrDistance;
+                            TimeLastSeenTarget = Time.time;
+                            KnownDetectedTarget = aimObject;
                         }
                     }
                 }
             }
 
+            // Check if the target is within attack range
             IsTargetInAttackRange = KnownDetectedTarget != null &&
-                                    Vector3.Distance(transform.position, KnownDetectedTarget.transform.position) <=
-                                    AttackRange;
+                                    Vector3.Distance(transform.position, KnownDetectedTarget.transform.position) <= AttackRange;
 
             // Detection events
-            if (!HadKnownTarget &&
-                KnownDetectedTarget != null)
+            if (!HadKnownTarget && KnownDetectedTarget != null)
             {
                 OnDetect();
             }
 
-            if (HadKnownTarget &&
-                KnownDetectedTarget == null)
+            if (HadKnownTarget && KnownDetectedTarget == null)
             {
                 OnLostTarget();
             }
