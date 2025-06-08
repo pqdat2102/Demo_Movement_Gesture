@@ -75,6 +75,9 @@ namespace Unity.FPS.AI
         [Tooltip("The chance the object has to drop")] [Range(0, 1)]
         public float DropRate = 1f;
 
+        [Header("Dead Event")]
+        public UnityEvent deadEvent;
+
         [Header("Debug Display")] [Tooltip("Color of the sphere gizmo representing the path reaching range")]
         public Color PathReachingRangeColor = Color.yellow;
 
@@ -346,13 +349,18 @@ namespace Unity.FPS.AI
             Destroy(vfx, 5f);
 
             // loot an object
-            if (TryDropItem())
-            {
-                Instantiate(LootPrefab, transform.position, Quaternion.identity);
-            }
+            //if (TryDropItem())
+            //{
+            //    Instantiate(LootPrefab, transform.position, Quaternion.identity);
+            //}
+
+            // Call Dead Event
+            deadEvent.Invoke();
 
             // this will call the OnDestroy function
             Destroy(gameObject, DeathDuration);
+
+            Debug.Log("Dead Call");
         }
 
         void OnDrawGizmosSelected()

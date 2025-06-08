@@ -134,6 +134,10 @@ namespace Unity.FPS.Game
         AudioSource m_ContinuousShootAudioSource = null;
         bool m_WantsToShoot = false;
 
+        [Header("Extra Damage")]
+        [SerializeField] private float ExtraDamage;
+        public float SetExtraDamage(float damage) => ExtraDamage = damage;
+
         public UnityAction OnShoot;
         public event Action OnShootProcessed;
 
@@ -459,6 +463,7 @@ namespace Unity.FPS.Game
                 ProjectileBase newProjectile = Instantiate(ProjectilePrefab, WeaponMuzzle.position,
                     Quaternion.LookRotation(shotDirection));
                 newProjectile.Shoot(this);
+                newProjectile.SetExtraDamage(ExtraDamage);
             }
 
             // muzzle flash

@@ -1,10 +1,7 @@
 {
-    "name": "fps.Gameplay",
+    "name": "Lazer",
     "rootNamespace": "",
-    "references": [
-        "GUID:9c5543eabb73a6249ac07b2c065ee8b4",
-        "GUID:cb20a1e9134cc0b4899a01944fb54a20"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

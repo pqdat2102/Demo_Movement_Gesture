@@ -13,6 +13,10 @@ namespace Unity.FPS.Game
 
         public UnityAction OnShoot;
 
+        public float extraDamage = 0;
+
+        public void SetExtraDamage(float add) => extraDamage += add;
+
         public void Shoot(WeaponController controller)
         {
             Owner = controller.Owner;

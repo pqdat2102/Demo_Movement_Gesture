@@ -10,6 +10,8 @@ public class PlayerActions : MonoBehaviour
     [Header("Player")]
     [SerializeField] Transform playerTransform;
     [SerializeField] float playerSpeed = 5.0f;
+    [SerializeField] float playerBonusSpeed = 0.0f;
+    public void SetPlayerBonusSpeed(float bonus) => playerBonusSpeed = bonus;
 
     [Header("Left Hand")]
     [SerializeField] Transform leftHandTransform;
@@ -43,6 +45,8 @@ public class PlayerActions : MonoBehaviour
     public float dashCooldownDelta = -1.0f;
     public float dashTime = 0.2f;
     public float dashTimeDelta = 0.2f;
+    public float dashCooldownBonus = 0.0f;
+    public void SetDashCooldownBonus(float bonus) => dashCooldownBonus = bonus;
 
     public string rightHandStateName
     {
@@ -94,12 +98,8 @@ public class PlayerActions : MonoBehaviour
     /// </summary>
     void MoveDirectionPoint()
     {
-        //// += Vector3(x, y, z);
-        //playerTransform.position += leftHandTransform.forward * playerSpeed * Time.deltaTime;
-
         // Lấy vector forward từ leftHandTransform
-        Vector3 moveDirection = leftHandTransform.forward * playerSpeed * Time.deltaTime;
-        Debug.Log(leftHandTransform.forward);
+        Vector3 moveDirection = leftHandTransform.forward * (playerSpeed + playerBonusSpeed) * Time.deltaTime;
 
         // Chỉ giữ lại thành phần X và Z, đặt Y = 0
         moveDirection.y = 0f;
@@ -126,7 +126,7 @@ public class PlayerActions : MonoBehaviour
 
             if (dashTimeDelta < 0)
             {
-                dashCooldownDelta = dashCooldown;
+                dashCooldownDelta = dashCooldown + dashCooldownBonus;
                 dashTimeDelta = dashTime;
             }
         }
