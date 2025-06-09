@@ -441,6 +441,21 @@ PrefabInstance:
       propertyPath: startLanded
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2378253327041856895, guid: 9398898c2e689404b8fbf79879cc068f,
+        type: 3}
+      propertyPath: landCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378253327041856895, guid: 9398898c2e689404b8fbf79879cc068f,
+        type: 3}
+      propertyPath: launchCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378298448646388363, guid: 9398898c2e689404b8fbf79879cc068f,
+        type: 3}
+      propertyPath: lineOfSightMask.m_Bits
+      value: 64819
+      objectReference: {fileID: 0}
     - target: {fileID: 2444488548621187025, guid: 9398898c2e689404b8fbf79879cc068f,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2539,10 +2554,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6604118181684055229, guid: c11c75430698989468fe532c3b045fae,
+        type: 3}
+      propertyPath: lineOfSightMask.m_Bits
+      value: 64819
+      objectReference: {fileID: 0}
     - target: {fileID: 6604145559662801737, guid: c11c75430698989468fe532c3b045fae,
         type: 3}
       propertyPath: startLanded
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604145559662801737, guid: c11c75430698989468fe532c3b045fae,
+        type: 3}
+      propertyPath: landCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6604145559662801737, guid: c11c75430698989468fe532c3b045fae,
+        type: 3}
+      propertyPath: launchCurve.m_RotationOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7104990160442081675, guid: c11c75430698989468fe532c3b045fae,
         type: 3}
