@@ -54,6 +54,8 @@ public class PlayerHealthController : MonoBehaviour
     public void SetBonusHealth(float bonus)
     {
         _bonusHealth = bonus;
+        _health += _bonusHealth;
+        UpdateHealthFX();
     }    
 
     public void UpdateHealthFX()
