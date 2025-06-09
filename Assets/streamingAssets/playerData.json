@@ -2,6 +2,6 @@
     "bulletPower": 20.0,
     "cooldownReduction": 0.0,
     "movementSpeed": 0.0,
-    "upgradePoints": 2,
+    "upgradePoints": 11,
     "currentLevel": 1
 }

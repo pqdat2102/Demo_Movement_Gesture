@@ -6,9 +6,10 @@ public class SaveLoadDataManager : MonoBehaviour
     [System.Serializable]
     private class PlayerData
     {
-        public float bulletPower = 1.0f;
+        public float bulletPower = 0.0f;
         public float cooldownReduction = 0.0f;
-        public float movementSpeed = 5.0f;
+        public float movementSpeed = 0.0f;
+        public float health = 0.0f;
         public int upgradePoints = 0;
         public int currentLevel = 1; // Màn chơi hiện tại (1, 2, hoặc 3)
     }
@@ -22,7 +23,8 @@ public class SaveLoadDataManager : MonoBehaviour
     {
         // Đường dẫn file JSON trong StreamingAssets
         saveFilePath = Path.Combine(Application.streamingAssetsPath, "playerData.json");
-        LoadData();
+        Debug.Log("Save in: " + saveFilePath);
+        //LoadData();
     }
 
     // Lưu dữ liệu vào file JSON
@@ -50,16 +52,19 @@ public class SaveLoadDataManager : MonoBehaviour
 
     // Lấy/Save các chỉ số trạng thái
     public float LoadBulletPower() => playerData.bulletPower;
-    public void SaveBulletPower(float value) { playerData.bulletPower = value; SaveData(); }
+    public void SaveBulletPower(float value) { playerData.bulletPower = value; }
 
     public float LoadCooldownReduction() => playerData.cooldownReduction;
-    public void SaveCooldownReduction(float value) { playerData.cooldownReduction = value; SaveData(); }
+    public void SaveCooldownReduction(float value) { playerData.cooldownReduction = value; }
 
     public float LoadMovementSpeed() => playerData.movementSpeed;
-    public void SaveMovementSpeed(float value) { playerData.movementSpeed = value; SaveData(); }
+    public void SaveMovementSpeed(float value) { playerData.movementSpeed = value; }
+
+    public float LoadHealth() => playerData.health;
+    public void SaveHealth(float value) { playerData.health = value; }
 
     public int LoadUpgradePoints() => playerData.upgradePoints;
-    public void SaveUpgradePoints(int value) { playerData.upgradePoints = value; SaveData(); }
+    public void SaveUpgradePoints(int value) { playerData.upgradePoints = value; }
 
     // Lấy/Save màn chơi hiện tại
     public int LoadCurrentLevel() => playerData.currentLevel;

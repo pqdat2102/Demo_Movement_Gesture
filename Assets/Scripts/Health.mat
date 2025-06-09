@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BloodIntensity: 0.24000001
+    - _BloodIntensity: 0
     - _FadeSpeed: 0.5
     - _FadeThreshold: 0.5
     - _Health: 0.5

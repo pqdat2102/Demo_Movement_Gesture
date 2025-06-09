@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - AimObject
+  - Player_Hand
   layers:
   - Default
   - TransparentFX

@@ -4,23 +4,26 @@ using Unity.FPS.Game;
 public class PlayerStatusController : MonoBehaviour
 {
     [Header("Player Status")]
-    [SerializeField] private float bulletPower = 0.0f;       // Sức mạnh đạn (tăng sát thương và hiệu ứng)
-    [SerializeField] private float cooldownReduction = 0.0f;  // Thời gian hồi chiêu giảm (giây)
-    [SerializeField] private float movementSpeed = 0.0f;      // Tốc độ di chuyển (đơn vị/s)
+    [SerializeField] private float bulletPowerBonus = 0.0f;       // Sức mạnh đạn (tăng sát thương và hiệu ứng)
+    [SerializeField] private float cooldownReductionBonus = 0.0f;  // Thời gian hồi chiêu giảm (giây)
+    [SerializeField] private float movementSpeedBonus = 0.0f;      // Tốc độ di chuyển (đơn vị/s)
+    [SerializeField] private float healthBonus = 0.0f;
 
     [Header("Points System")]
     [SerializeField] private int upgradePoints = 0;           // Điểm nâng cấp (tăng khi tiêu diệt quái)
 
     [Header("SetUp")]
-    [SerializeField] private WeaponController bulletSetUp;
-    [SerializeField] private PlayerActions playerSetUp;
+    [SerializeField] private WeaponController bulletSetup;
+    [SerializeField] private PlayerActions playerSetup;
+    [SerializeField] private PlayerHealthController playerHealthSetup;
 
     private SaveLoadDataManager saveLoadDataManager;          // Tham chiếu đến SaveLoadDataManager
 
     // Thuộc tính công khai để truy cập các chỉ số
-    public float BulletPower => bulletPower;
-    public float CooldownReduction => cooldownReduction;
-    public float MovementSpeed => movementSpeed;
+    public float BulletPowerBonus => bulletPowerBonus;
+    public float CooldownReductionBonus => cooldownReductionBonus;
+    public float MovementSpeedBonus => movementSpeedBonus;
+    public float HealthBonus => healthBonus;
     public int UpgradePoints => upgradePoints;
 
     void Awake()
@@ -48,14 +51,16 @@ public class PlayerStatusController : MonoBehaviour
 
         if (saveLoadDataManager != null)
         {
-            bulletPower = saveLoadDataManager.LoadBulletPower();
-            cooldownReduction = saveLoadDataManager.LoadCooldownReduction();
-            movementSpeed = saveLoadDataManager.LoadMovementSpeed();
+            bulletPowerBonus = saveLoadDataManager.LoadBulletPower();
+            cooldownReductionBonus = saveLoadDataManager.LoadCooldownReduction();
+            movementSpeedBonus = saveLoadDataManager.LoadMovementSpeed();
+            healthBonus = saveLoadDataManager.LoadHealth();
             upgradePoints = saveLoadDataManager.LoadUpgradePoints();
 
-            bulletSetUp.SetExtraDamage(bulletPower);
-            playerSetUp.SetDashCooldownBonus(cooldownReduction);
-            playerSetUp.SetPlayerBonusSpeed(movementSpeed);
+            bulletSetup.SetExtraDamage(bulletPowerBonus);
+            playerSetup.SetDashCooldownBonus(cooldownReductionBonus);
+            playerSetup.SetPlayerBonusSpeed(movementSpeedBonus);
+            playerHealthSetup.SetBonusHealth(healthBonus);
         }
     }
 
@@ -64,10 +69,10 @@ public class PlayerStatusController : MonoBehaviour
     {
         if (upgradePoints >= 1)
         {
-            bulletPower += 1f; // Tăng 1 đơn vị sức mạnh đạn
+            bulletPowerBonus += 1f; // Tăng 1 đơn vị sức mạnh đạn
             upgradePoints -= 1;
-            bulletSetUp.SetExtraDamage(bulletPower);
-            SaveCurrentData();
+            bulletSetup.SetExtraDamage(bulletPowerBonus);
+            SaveTempData();
         }
         else
         {
@@ -80,10 +85,10 @@ public class PlayerStatusController : MonoBehaviour
     {
         if (upgradePoints >= 1)
         {
-            cooldownReduction -= 0.1f; // Giảm 0.1 giây thời gian hồi chiêu
+            cooldownReductionBonus -= 0.1f; // Giảm 0.1 giây thời gian hồi chiêu
             upgradePoints -= 1;
-            playerSetUp.SetDashCooldownBonus(cooldownReduction);
-            SaveCurrentData();
+            playerSetup.SetDashCooldownBonus(cooldownReductionBonus);
+            SaveTempData();
         }
         else
         {
@@ -96,10 +101,25 @@ public class PlayerStatusController : MonoBehaviour
     {
         if (upgradePoints >= 1)
         {
-            movementSpeed += 0.5f; // Tăng 0.5 đơn vị tốc độ di chuyển
+            movementSpeedBonus += 0.5f; // Tăng 0.5 đơn vị tốc độ di chuyển
             upgradePoints -= 1;
-            playerSetUp.SetPlayerBonusSpeed(movementSpeed);
-            SaveCurrentData();
+            playerSetup.SetPlayerBonusSpeed(movementSpeedBonus);
+            SaveTempData();
+        }
+        else
+        {
+            Debug.LogWarning("Not enough upgrade points to increase movement speed!");
+        }
+    }
+
+    public void IncreaseHealth()
+    {
+        if (upgradePoints >= 1)
+        {
+            healthBonus += 20f; // Tăng 20 đơn vị máu
+            upgradePoints -= 1;
+            playerHealthSetup.SetBonusHealth(healthBonus);
+            SaveTempData();
         }
         else
         {
@@ -113,18 +133,19 @@ public class PlayerStatusController : MonoBehaviour
         if (points > 0)
         {
             upgradePoints += points;
-            SaveCurrentData();
+            SaveTempData();
         }
     }
 
     // Hàm lưu dữ liệu hiện tại vào SaveLoadDataManager
-    private void SaveCurrentData()
+    private void SaveTempData()
     {
         if (saveLoadDataManager != null)
         {
-            saveLoadDataManager.SaveBulletPower(bulletPower);
-            saveLoadDataManager.SaveCooldownReduction(cooldownReduction);
-            saveLoadDataManager.SaveMovementSpeed(movementSpeed);
+            saveLoadDataManager.SaveBulletPower(bulletPowerBonus);
+            saveLoadDataManager.SaveCooldownReduction(cooldownReductionBonus);
+            saveLoadDataManager.SaveMovementSpeed(movementSpeedBonus);
+            saveLoadDataManager.SaveHealth(healthBonus);
             saveLoadDataManager.SaveUpgradePoints(upgradePoints);
         }
     }

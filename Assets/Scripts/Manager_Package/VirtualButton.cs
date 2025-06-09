@@ -15,7 +15,7 @@ public class VirtualButton : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Check if the collider has the "Player" tag and button hasn't been pressed yet
-        if (other.CompareTag("Player") && !isPressed)
+        if (other.CompareTag("Player_Hand") && !isPressed)
         {
             PressButton();
         }
@@ -24,7 +24,7 @@ public class VirtualButton : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         // Check if the collider has the "Player" tag and button hasn't been pressed yet
-        if (other.CompareTag("Player") && isPressed)
+        if (other.CompareTag("Player_Hand") && isPressed)
         {
             ResetButton();
         }
