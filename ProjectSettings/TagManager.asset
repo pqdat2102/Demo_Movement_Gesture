@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - AimObject
   - Player_Hand
+  - FlyByParticles
+  - Vehicle
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - Interactable
   - Teleport
   - Enemy
-  - 
+  - Vehicle
   - 
   - 
   - 

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 namespace VSX.Weapons
 {
     /// <summary>
-    /// Custom projectile that continuously scans for collision with GameObjects tagged "Vehicle".
+    /// Custom projectile that continuously scans for collision with GameObjects on the "Vehicle" layer.
     /// On collision, it destroys itself and attempts to call Damaged(int damage) on SpaceShipHealthController.
     /// </summary>
     public class ProjectileCustom : MonoBehaviour
@@ -42,7 +42,7 @@ namespace VSX.Weapons
         protected float scanInterval = 0.1f; // Interval between scans (seconds)
 
         [SerializeField]
-        protected LayerMask vehicleLayerMask = ~0; // Layer mask for vehicles (optional)
+        protected LayerMask vehicleLayerMask = ~0; // Layer mask for vehicles (set to "Vehicle" layer in Inspector)
 
         protected bool detonated = false;
         public bool Detonated { get { return detonated; } }
@@ -69,7 +69,7 @@ namespace VSX.Weapons
         }
 
         /// <summary>
-        /// Coroutine to continuously scan for collisions with GameObjects tagged "Vehicle".
+        /// Coroutine to continuously scan for collisions with GameObjects on the "Vehicle" layer.
         /// </summary>
         protected virtual IEnumerator ScanForVehicleCollision()
         {
@@ -80,35 +80,31 @@ namespace VSX.Weapons
 
                 foreach (Collider collider in colliders)
                 {
-                    // Check if the collider belongs to a GameObject tagged "Vehicle"
-                    if (collider.gameObject.CompareTag("Vehicle"))
+                    // Ignore if the collider is part of the sender's hierarchy
+                    if (senderRootTransform != null && collider.transform.IsChildOf(senderRootTransform))
                     {
-                        // Ignore if the collider is part of the sender's hierarchy
-                        if (senderRootTransform != null && collider.transform.IsChildOf(senderRootTransform))
-                        {
-                            continue;
-                        }
-
-                        // Try to find SpaceShipHealthController in the parent hierarchy
-                        Transform current = collider.transform;
-                        SpaceShipHealthController healthController = null;
-
-                        while (current != null && healthController == null)
-                        {
-                            healthController = current.GetComponent<SpaceShipHealthController>();
-                            current = current.parent;
-                        }
-
-                        // If found, call Damaged(damage)
-                        if (healthController != null)
-                        {
-                            healthController.Damaged(damage);
-                        }
-
-                        // Destroy the projectile and exit the scan
-                        Detonate();
-                        break;
+                        continue;
                     }
+
+                    // Try to find SpaceShipHealthController in the parent hierarchy
+                    Transform current = collider.transform;
+                    SpaceShipHealthController healthController = null;
+
+                    while (current != null && healthController == null)
+                    {
+                        healthController = current.GetComponent<SpaceShipHealthController>();
+                        current = current.parent;
+                    }
+
+                    // If found, call Damaged(damage)
+                    if (healthController != null)
+                    {
+                        healthController.Damaged(damage);
+                    }
+
+                    // Destroy the projectile and exit the scan
+                    Detonate();
+                    break;
                 }
 
                 yield return new WaitForSeconds(scanInterval);
