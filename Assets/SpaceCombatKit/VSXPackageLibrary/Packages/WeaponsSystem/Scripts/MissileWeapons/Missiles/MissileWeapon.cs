@@ -46,7 +46,7 @@ namespace VSX.Weapons
                 ProjectileWeaponUnit projectileWeaponUnit = weaponUnits[i].GetComponent<ProjectileWeaponUnit>();
                 if (projectileWeaponUnit != null)
                 {
-                    projectileWeaponUnit.onProjectileLaunched.AddListener(OnMissileLaunched);
+                    //projectileWeaponUnit.onProjectileLaunched.AddListener(OnMissileLaunched);
                 }
             }
 

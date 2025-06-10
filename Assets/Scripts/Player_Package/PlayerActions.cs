@@ -41,12 +41,13 @@ public class PlayerActions : MonoBehaviour
     [Space(10)]
     //Dash
     [Header("Dash")]
-    public float dashCooldown = 2.0f;
+    public float dashCooldownDefault = 2.0f;
     public float dashCooldownDelta = -1.0f;
     public float dashTime = 0.2f;
     public float dashTimeDelta = 0.2f;
-    public float dashCooldownBonus = 0.0f;
-    public void SetDashCooldownBonus(float bonus) => dashCooldownBonus = bonus;
+    public float dashCooldown => (dashCooldownDefault + cooldownBonus);
+    public float cooldownBonus = 0.0f;
+    public void SetCooldownBonus(float bonus) => cooldownBonus = bonus;
 
     public string rightHandStateName
     {
@@ -126,7 +127,7 @@ public class PlayerActions : MonoBehaviour
 
             if (dashTimeDelta < 0)
             {
-                dashCooldownDelta = dashCooldown + dashCooldownBonus;
+                dashCooldownDelta = dashCooldown;
                 dashTimeDelta = dashTime;
             }
         }

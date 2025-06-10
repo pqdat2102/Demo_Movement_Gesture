@@ -13,10 +13,12 @@ namespace VSX.Weapons
         [Header("Damage Settings")]
         [SerializeField]
         protected int damage = 10; // Damage to apply to SpaceShipHealthController
+        public int Damage { set { damage = value; } get { return damage; } }
 
         [Header("Movement Settings")]
         [SerializeField]
         protected float speed = 100;
+        public float Speed { set { speed = value; } get { return speed; } }
 
         [SerializeField]
         protected MovementUpdateMode movementUpdateMode = MovementUpdateMode.FixedUpdate;
@@ -33,6 +35,8 @@ namespace VSX.Weapons
 
         [SerializeField]
         protected float lifetime = 3;
+        public float Lifetime { set { lifetime = value; } get { return lifetime; } }
+
 
         [Header("Collision Scan Settings")]
         [SerializeField]

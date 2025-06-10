@@ -4,9 +4,11 @@ using VSX.Weapons;
 
 public class SpaceshipController : MonoBehaviour
 {
-    // Tốc độ di chuyển (ngang và dọc)
-    public float moveSpeed = 30f;
-    // Tốc độ xoay/nghiêng
+    public float moveSpeed => (moveDefaultSpeed + moveBonusSpeed);
+    [SerializeField] private float moveDefaultSpeed = 30.0f;
+    [SerializeField] private float moveBonusSpeed = 0.0f;
+    public void SetMoveBonusSpeed(float speed) => moveBonusSpeed = speed;
+   // Tốc độ xoay/nghiêng
     public float rotationSpeed = 150f;
     // Lực tăng tốc về phía trước
     public float forwardBoostForce = 50f;

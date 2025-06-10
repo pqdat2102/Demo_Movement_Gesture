@@ -3,6 +3,9 @@ using Unity.FPS.Game;
 
 public class PlayerStatusController : MonoBehaviour
 {
+    [Header("Status For Player Or Ship")]
+    [SerializeField] private bool IsSpaceShip = false;
+
     [Header("Player Status")]
     [SerializeField] private float bulletPowerBonus = 0.0f;       // Sức mạnh đạn (tăng sát thương và hiệu ứng)
     [SerializeField] private float cooldownReductionBonus = 0.0f;  // Thời gian hồi chiêu giảm (giây)
@@ -12,10 +15,15 @@ public class PlayerStatusController : MonoBehaviour
     [Header("Points System")]
     [SerializeField] private int upgradePoints = 0;           // Điểm nâng cấp (tăng khi tiêu diệt quái)
 
-    [Header("SetUp")]
+    [Header("Player Setup")]
     [SerializeField] private WeaponController bulletSetup;
     [SerializeField] private PlayerActions playerSetup;
     [SerializeField] private PlayerHealthController playerHealthSetup;
+
+    [Header("SpaceShip Setup")]
+    [SerializeField] private WeaponController bulletSpaceshipSetup;
+    [SerializeField] private PlayerShipActions playerSpaceshipSetup;
+    [SerializeField] private SpaceshipController spaceshipSetup;
 
     private SaveLoadDataManager saveLoadDataManager;          // Tham chiếu đến SaveLoadDataManager
 
@@ -28,6 +36,8 @@ public class PlayerStatusController : MonoBehaviour
 
     void Awake()
     {
+        IsSpaceShip = TryGetComponent<PlayerShipActions>(out var playerShip);
+
         // Tìm và gán tham chiếu đến SaveLoadDataManager
         saveLoadDataManager = FindObjectOfType<SaveLoadDataManager>();
         if (saveLoadDataManager != null)
@@ -57,10 +67,19 @@ public class PlayerStatusController : MonoBehaviour
             healthBonus = saveLoadDataManager.LoadHealth();
             upgradePoints = saveLoadDataManager.LoadUpgradePoints();
 
-            bulletSetup.SetExtraDamage(bulletPowerBonus);
-            playerSetup.SetDashCooldownBonus(cooldownReductionBonus);
-            playerSetup.SetPlayerBonusSpeed(movementSpeedBonus);
-            playerHealthSetup.SetBonusHealth(healthBonus);
+            if (IsSpaceShip)
+            {
+                spaceshipSetup.SetMoveBonusSpeed(movementSpeedBonus);
+                playerSpaceshipSetup.SetCooldownBonus(CooldownReductionBonus);
+            }    
+
+            if (!IsSpaceShip)
+            {
+                bulletSetup.SetExtraDamage(bulletPowerBonus);
+                playerSetup.SetCooldownBonus(cooldownReductionBonus);
+                playerSetup.SetPlayerBonusSpeed(movementSpeedBonus);
+                playerHealthSetup.SetBonusHealth(healthBonus);
+            }    
         }
     }
 
@@ -71,7 +90,16 @@ public class PlayerStatusController : MonoBehaviour
         {
             bulletPowerBonus += 1f; // Tăng 1 đơn vị sức mạnh đạn
             upgradePoints -= 1;
-            bulletSetup.SetExtraDamage(bulletPowerBonus);
+
+            if (IsSpaceShip)
+            {
+
+            }
+            else
+            {
+                bulletSetup.SetExtraDamage(bulletPowerBonus);
+            }
+            
             SaveTempData();
         }
         else
@@ -87,7 +115,16 @@ public class PlayerStatusController : MonoBehaviour
         {
             cooldownReductionBonus -= 0.1f; // Giảm 0.1 giây thời gian hồi chiêu
             upgradePoints -= 1;
-            playerSetup.SetDashCooldownBonus(cooldownReductionBonus);
+
+            if (IsSpaceShip)
+            {
+
+            }    
+            else
+            {
+                playerSetup.SetCooldownBonus(cooldownReductionBonus);
+            }    
+            
             SaveTempData();
         }
         else
@@ -103,7 +140,16 @@ public class PlayerStatusController : MonoBehaviour
         {
             movementSpeedBonus += 0.5f; // Tăng 0.5 đơn vị tốc độ di chuyển
             upgradePoints -= 1;
-            playerSetup.SetPlayerBonusSpeed(movementSpeedBonus);
+
+            if (IsSpaceShip)
+            {
+
+            }   
+            else
+            {
+                playerSetup.SetPlayerBonusSpeed(movementSpeedBonus);
+            }    
+            
             SaveTempData();
         }
         else
@@ -118,7 +164,7 @@ public class PlayerStatusController : MonoBehaviour
         {
             healthBonus += 20f; // Tăng 20 đơn vị máu
             upgradePoints -= 1;
-            playerHealthSetup.SetBonusHealth(healthBonus);
+            playerHealthSetup.SetBonusHealth(healthBonus);            
             SaveTempData();
         }
         else

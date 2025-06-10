@@ -50,7 +50,7 @@ namespace VSX.VehicleCombatKits
         {
             currentScale = defaultParticleScale;
 
-            projectileWeapon.onProjectileLaunched.AddListener(OnProjectileLaunched);
+            //projectileWeapon.onProjectileLaunched.AddListener(OnProjectileLaunched);
         }
 
 

@@ -24,11 +24,13 @@ public class PlayerShipActions : MonoBehaviour
 
     //Dash
     [Header("Dash")]
-    public float dashCooldown = 2.0f;
+    public float dashCooldownDefault = 2.0f;
+    public float dashCooldown => dashCooldownDefault + cooldownBonus;
     public float dashCooldownDelta = -1.0f;
     public float dashTime = 0.2f;
     public float dashTimeDelta = 0.2f;
-
+    public float cooldownBonus = 0.0f;
+    public void SetCooldownBonus(float bonus) => cooldownBonus = bonus;
     public string rightHandStateName
     {
         get => _rightHandStateName;
@@ -53,18 +55,6 @@ public class PlayerShipActions : MonoBehaviour
     private bool cooldown = false;
     private const float maxCount = 300f;
 
-    /// <summary>
-    /// Called before the first frame update.
-    /// </summary>
-    private void Start()
-    {
-        // if Photonview isnt owned, then dont allow actions
-        // if (!photonView.IsMine) return;
-    }
-
-    /// <summary>
-    /// Called once per frame.
-    /// </summary>
     private void Update()
     {
         HandleCooldown();
@@ -97,9 +87,6 @@ public class PlayerShipActions : MonoBehaviour
         spaceshipController.HandleThumbDown(leftHandDirect);
     }
 
-    /// <summary>
-    /// Fires the action if the cooldown is not active.
-    /// </summary>
     private void Firing()
     {
         spaceshipController.HandleFire(true);
@@ -109,9 +96,6 @@ public class PlayerShipActions : MonoBehaviour
         spaceshipController.HandleFire(false);
     }
 
-    /// <summary>
-    /// Handles the cooldown logic.
-    /// </summary>
     private void HandleCooldown()
     {
         if (count >= maxCount)
