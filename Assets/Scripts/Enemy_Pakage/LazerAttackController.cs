@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.FPS.Game;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LazerAttackController : MonoBehaviour
 {
-
+    [Header("Setting")]
     [SerializeField] private Transform player; // Transform của người chơi
     [SerializeField] private float attackDuration = 2f; // Thời gian tấn công (giây)
     [SerializeField] private float moveSpeed = 2f; // Tốc độ di chuyển của TargetObject
@@ -17,6 +19,9 @@ public class LazerAttackController : MonoBehaviour
     public ProgressControlV3D progress;
     public Transform targetObject;
 
+    [Header("Boss Complete")]
+    public UnityEvent OnBossDie;
+
     private Transform targetCursor;
     private bool isAttacking = false;
     private float attackTimer = 0f;
@@ -26,6 +31,7 @@ public class LazerAttackController : MonoBehaviour
     private void Start()
     {
         targetCursor = transform.GetComponent<MouseTargetV3D>().targetCursor;
+        GetComponent<Health>().OnDie += HandleDie;
     }
 
     private void Update()
@@ -130,6 +136,12 @@ public class LazerAttackController : MonoBehaviour
             Gizmos.DrawWireSphere(targetCursor.position, damageRange);
         }
     }
+
+    private void HandleDie()
+    {
+        OnBossDie.Invoke();
+        Destroy(gameObject);
+    }    
 
 
 }

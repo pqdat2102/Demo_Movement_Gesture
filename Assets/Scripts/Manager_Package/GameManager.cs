@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         var resetShader = FindAnyObjectByType<ResetShaderWhenExit>();
-        SceneManager.sceneLoaded += resetShader.ResetHealthFX;
+        if (resetShader) SceneManager.sceneLoaded += resetShader.ResetHealthFX;
     }
 
     public void NextLevel()
@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Main");
     }
-
     public void OnDie()
     {
         lockStatus = true;
@@ -64,5 +63,11 @@ public class GameManager : MonoBehaviour
         _currentSkillCooldown.text = status.CooldownReductionBonus.ToString();
         _currentSpeed.text = status.MovementSpeedBonus.ToString();
         _currentHealth.text = status.HealthBonus.ToString();
+    }    
+
+    public void ContinueGame()
+    {
+        var _level = GetComponent<SaveLoadDataManager>().GetSavedLevel();
+        SceneManager.LoadScene(_level);
     }    
 }

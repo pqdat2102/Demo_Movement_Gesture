@@ -75041,6 +75041,8 @@ GameObject:
   - component: {fileID: 990474439}
   - component: {fileID: 990474438}
   - component: {fileID: 990474437}
+  - component: {fileID: 990474441}
+  - component: {fileID: 990474440}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Untagged
@@ -75113,6 +75115,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1865332275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &990474440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990474436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b0ce1bb69c96b49a7ac1098a7f5796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageMultiplier: 1
+  SensibilityToSelfdamage: 0.5
+--- !u!136 &990474441
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990474436}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.0911548
+  m_Height: 2.1826103
+  m_Direction: 1
+  m_Center: {x: -0.00042748466, y: -0.0013070108, z: -0.19184054}
 --- !u!1 &993796293
 GameObject:
   m_ObjectHideFlags: 0
@@ -115892,6 +115931,9 @@ MonoBehaviour:
   _bonusHealth: 0
   _health: 100
   HealthFX: {fileID: 0}
+  OnDie:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1761811547
 GameObject:
   m_ObjectHideFlags: 0
@@ -117351,6 +117393,7 @@ GameObject:
   - component: {fileID: 1865332275}
   - component: {fileID: 1865332274}
   - component: {fileID: 1865332273}
+  - component: {fileID: 1865332276}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -117415,6 +117458,20 @@ Transform:
   - {fileID: 1546986051}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1865332276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865332272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e27364eefd6dd0341ba72a3bfc0d9727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 1000
+  CriticalHealthRatio: 0.3
 --- !u!1 &1874397896
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class SaveLoadDataManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
         LoadData();
     }
 
@@ -127,4 +127,9 @@ public class SaveLoadDataManager : MonoBehaviour
             SaveData();
         }
     }
+
+    public int GetSavedLevel()
+    {
+        return playerData.currentLevel;
+    }    
 }
