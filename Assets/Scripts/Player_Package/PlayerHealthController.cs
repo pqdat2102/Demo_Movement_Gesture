@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerHealthController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class PlayerHealthController : MonoBehaviour
     private float lastDamageTime; // Thời gian cuối cùng bị bắn
     private const float healDelay = 6f; // Thời gian chờ 6 giây để bắt đầu hồi máu
     private const float healRate = 50f; // Tốc độ hồi máu (50 máu/giây)
+
+    public UnityEvent OnDie;
 
     void Start()
     {
@@ -61,7 +64,7 @@ public class PlayerHealthController : MonoBehaviour
 
     public void SetDie()
     {
-        Debug.Log("Player Đã hẹo");
+        OnDie.Invoke();
     }    
 
     public void SetCurrentUpdateHealth()
