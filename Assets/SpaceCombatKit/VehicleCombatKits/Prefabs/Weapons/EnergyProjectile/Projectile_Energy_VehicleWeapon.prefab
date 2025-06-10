@@ -145,7 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99405b5844525104fb7b4596eca0575b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 60
+  defaultDamage: 10
+  bonusDamage: 0
   speed: 100
   movementUpdateMode: 1
   disableAfterLifetime: 1
@@ -154,7 +155,7 @@ MonoBehaviour:
   scanInterval: 0.1
   vehicleLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 65536
   onDetonated:
     m_PersistentCalls:
       m_Calls: []
