@@ -21,9 +21,10 @@ public class PlayerStatusController : MonoBehaviour
     [SerializeField] private PlayerHealthController playerHealthSetup;
 
     [Header("SpaceShip Setup")]
-    [SerializeField] private WeaponController bulletSpaceshipSetup;
+    [SerializeField] private VSX.Weapons.GunWeapon bulletSpaceshipSetup;
     [SerializeField] private PlayerShipActions playerSpaceshipSetup;
     [SerializeField] private SpaceshipController spaceshipSetup;
+    [SerializeField] private PlayerHealthController playerSpaceshipHealthSetup;
 
     private SaveLoadDataManager saveLoadDataManager;          // Tham chiếu đến SaveLoadDataManager
 
@@ -69,8 +70,10 @@ public class PlayerStatusController : MonoBehaviour
 
             if (IsSpaceShip)
             {
-                spaceshipSetup.SetMoveBonusSpeed(movementSpeedBonus);
+                bulletSpaceshipSetup.SetBonusDamage((int)bulletPowerBonus);
                 playerSpaceshipSetup.SetCooldownBonus(CooldownReductionBonus);
+                spaceshipSetup.SetMoveBonusSpeed(movementSpeedBonus);
+                playerSpaceshipHealthSetup.SetBonusHealth(healthBonus);
             }    
 
             if (!IsSpaceShip)
@@ -93,7 +96,7 @@ public class PlayerStatusController : MonoBehaviour
 
             if (IsSpaceShip)
             {
-
+                bulletSpaceshipSetup.SetBonusDamage((int)bulletPowerBonus);
             }
             else
             {
@@ -118,7 +121,7 @@ public class PlayerStatusController : MonoBehaviour
 
             if (IsSpaceShip)
             {
-
+                playerSpaceshipSetup.SetCooldownBonus(CooldownReductionBonus);
             }    
             else
             {
@@ -143,7 +146,7 @@ public class PlayerStatusController : MonoBehaviour
 
             if (IsSpaceShip)
             {
-
+                spaceshipSetup.SetMoveBonusSpeed(movementSpeedBonus);
             }   
             else
             {
@@ -164,7 +167,14 @@ public class PlayerStatusController : MonoBehaviour
         {
             healthBonus += 20f; // Tăng 20 đơn vị máu
             upgradePoints -= 1;
-            playerHealthSetup.SetBonusHealth(healthBonus);            
+            if (IsSpaceShip)
+            {
+                playerSpaceshipHealthSetup.SetBonusHealth(healthBonus);
+            }
+            else
+            {
+                playerHealthSetup.SetBonusHealth(healthBonus);
+            }
             SaveTempData();
         }
         else

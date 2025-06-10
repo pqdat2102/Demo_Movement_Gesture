@@ -56,6 +56,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114724404775509316, guid: 33b80b6b4c5e5e54f9b3d5be851cdb1d,
+        type: 3}
+      propertyPath: onPostOriginShift.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 114768807756433516, guid: 33b80b6b4c5e5e54f9b3d5be851cdb1d,
         type: 3}
       propertyPath: m_Enabled
@@ -88,6 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 155368965948563476, guid: 33b80b6b4c5e5e54f9b3d5be851cdb1d,
         type: 3}
+      propertyPath: collisionScanner
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 155368965948563476, guid: 33b80b6b4c5e5e54f9b3d5be851cdb1d,
+        type: 3}
       propertyPath: hitEffectScaleMultiplier
       value: 40
       objectReference: {fileID: 0}
@@ -111,7 +121,9 @@ PrefabInstance:
       propertyPath: scale
       value: 30
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114768807756433516, guid: 33b80b6b4c5e5e54f9b3d5be851cdb1d, type: 3}
+    - {fileID: 155368965948563476, guid: 33b80b6b4c5e5e54f9b3d5be851cdb1d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -138,7 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99405b5844525104fb7b4596eca0575b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
+  defaultDamage: 10
+  bonusDamage: 0
   speed: 2000
   movementUpdateMode: 1
   disableAfterLifetime: 1

@@ -11,9 +11,11 @@ namespace VSX.Weapons
     public class ProjectileCustom : MonoBehaviour
     {
         [Header("Damage Settings")]
-        [SerializeField]
-        protected int damage = 10; // Damage to apply to SpaceShipHealthController
-        public int Damage { set { damage = value; } get { return damage; } }
+        [SerializeField] private int defaultDamage = 10;
+        [SerializeField] private int bonusDamage;
+        public int Damage { set { defaultDamage = value; } get { return defaultDamage; } }
+        public float SetBonusDamage(int bonus) => bonusDamage = bonus;
+        protected int damage => defaultDamage + bonusDamage; // Damage to apply to SpaceShipHealthController
 
         [Header("Movement Settings")]
         [SerializeField]

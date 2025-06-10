@@ -81,6 +81,7 @@ namespace VSX.Weapons
         /// <param name="healingMultiplier">The healing multiplier.</param>
         public virtual void SetHealingMultiplier(float healingMultiplier) { }
 
+        public virtual void SetBonusDamage(int bonus) { }
 
         /// <summary>
         /// Get the amount of healing this weapon unit does (typically in hit points per second).

@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class SpaceShipHealthController : MonoBehaviour
 {
     [Header("Player Setting")]
-    public UnityEvent OnDamagedPlayer;
+    public UnityEvent<int> OnDamagedPlayer;
     public bool _isPlayer;
 
     [Header("Enemy Setting")]
@@ -24,7 +24,7 @@ public class SpaceShipHealthController : MonoBehaviour
         // Implement actual health logic here
         if (_isPlayer)
         {
-            OnDamagedPlayer.Invoke();
+            OnDamagedPlayer.Invoke(damage);
         }
         else
         {

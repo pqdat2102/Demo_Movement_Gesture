@@ -80,6 +80,8 @@ namespace VSX.Weapons
 
         protected float damageMultiplier;
         protected float healingMultiplier;
+        protected int bonusDamage;
+        public override void SetBonusDamage(int bonus) => bonusDamage = bonus;
 
         protected Transform rootTransform;
         public Transform RootTransform
@@ -212,6 +214,8 @@ namespace VSX.Weapons
 
                 // Call the event
                 onProjectileLaunched.Invoke(projectileController);
+
+                projectileController.SetBonusDamage(bonusDamage);
             }
 
             ClearAim();

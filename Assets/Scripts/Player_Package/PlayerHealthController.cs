@@ -32,11 +32,24 @@ public class PlayerHealthController : MonoBehaviour
         }
     }
 
+    public void DealDamage(int damage)
+    {
+        if (_health <= damage)
+        {
+            SetDie();
+        }
+
+        _health -= damage;
+        _health = Mathf.Max(0, _health); // Đảm bảo không âm máu
+        lastDamageTime = Time.time; // Cập nhật thời gian bị bắn
+        UpdateHealthFX();
+        //Debug.Log("Đang bị bắn, còn " + _health + " máu");
+    }
     public void DealDamage(float damage)
     {
         if (_health <= damage)
         {
-            Debug.Log("Player Đã Hẹo");
+            SetDie();
         }    
 
         _health -= damage;
@@ -45,6 +58,11 @@ public class PlayerHealthController : MonoBehaviour
         UpdateHealthFX();
         //Debug.Log("Đang bị bắn, còn " + _health + " máu");
     }
+
+    public void SetDie()
+    {
+        Debug.Log("Player Đã hẹo");
+    }    
 
     public void SetCurrentUpdateHealth()
     {

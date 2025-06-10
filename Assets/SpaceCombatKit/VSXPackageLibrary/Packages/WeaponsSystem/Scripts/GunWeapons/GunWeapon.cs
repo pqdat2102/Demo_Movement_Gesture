@@ -7,6 +7,14 @@ namespace VSX.Weapons
 {
     public class GunWeapon : Weapon
     {
+        public float bonusDamage;
+        public void SetBonusDamage(int bonus)
+        {
+            weaponUnits.ForEach((weaponUnit) =>
+            {
+                weaponUnit.SetBonusDamage(bonus);
+            });
+        }
 
         public virtual Vector3 GetLeadTargetPosition(Vector3 targetPosition, Vector3 targetVelocity)
         {
