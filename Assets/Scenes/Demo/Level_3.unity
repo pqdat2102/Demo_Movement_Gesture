@@ -74838,6 +74838,7 @@ MonoBehaviour:
   ContinuousShootStartSfx: {fileID: 0}
   ContinuousShootLoopSfx: {fileID: 0}
   ContinuousShootEndSfx: {fileID: 0}
+  ExtraDamage: 0
   shootCooldown: 0
 --- !u!1 &981093498
 GameObject:
@@ -115634,6 +115635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1754563994}
   playerSpeed: 8
+  playerBonusSpeed: 0
   leftHandTransform: {fileID: 1533751847}
   leftHandDirectTransform: {fileID: 967200252}
   modelShow: {fileID: 979609286}
@@ -115646,10 +115648,11 @@ MonoBehaviour:
   teleportLocation: {fileID: 1687640365155336}
   teleportParticle: {fileID: 1672103720}
   particleDuration: 2
-  dashCooldown: 0.5
+  dashCooldownDefault: 2
   dashCooldownDelta: -1
   dashTime: 0.4
   dashTimeDelta: 0.2
+  cooldownBonus: 0
 --- !u!4 &1754563994
 Transform:
   m_ObjectHideFlags: 0
@@ -115885,7 +115888,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0046a0b8aefec649b9e8d305394326d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultHealth: 500
+  _bonusHealth: 0
   _health: 100
+  HealthFX: {fileID: 0}
 --- !u!1 &1761811547
 GameObject:
   m_ObjectHideFlags: 0
@@ -117346,7 +117352,7 @@ GameObject:
   - component: {fileID: 1865332274}
   - component: {fileID: 1865332273}
   m_Layer: 0
-  m_Name: V3DLaser_01NEW
+  m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
