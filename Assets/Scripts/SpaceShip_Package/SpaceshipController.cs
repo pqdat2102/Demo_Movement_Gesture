@@ -38,11 +38,6 @@ public class SpaceshipController : MonoBehaviour
         triggerable = GetComponentInChildren<Triggerable>();
     }
 
-    private void Update()
-    {
-        HandleFire(true);
-    }
-
     public void HandleFire(bool state)
     {
         if (triggerable == null) triggerable = GetComponentInChildren<Triggerable>();
