@@ -201,6 +201,7 @@ public class PlayerActions : MonoBehaviour
 
     void Teleport_Aim()
     {
+        leftHandDirectTransform.gameObject.SetActive(true);
         teleportLocation.SetActive(true);
         if (leftHandDirectTransform == null || teleportLocation == null)
         {
@@ -236,6 +237,7 @@ public class PlayerActions : MonoBehaviour
     {
         leftHandStateName = "default";
         teleportLocation.SetActive(false);
+        leftHandDirectTransform.gameObject.SetActive(false);
 
         if (teleportLocation == null)
         {

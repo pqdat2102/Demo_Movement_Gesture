@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultDamage: 10
   bonusDamage: 0
-  speed: 100
+  speed: 900
   movementUpdateMode: 1
   disableAfterLifetime: 1
   lifetime: 3
