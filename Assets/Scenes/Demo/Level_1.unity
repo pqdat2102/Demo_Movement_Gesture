@@ -60501,7 +60501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8864d2e490873046bdfc4266e3fad4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
+  _level: 1
   _currentUpgradePoints: {fileID: 476743803}
   _currentBullet: {fileID: 1538290764}
   _currentSkillCooldown: {fileID: 1511181885}

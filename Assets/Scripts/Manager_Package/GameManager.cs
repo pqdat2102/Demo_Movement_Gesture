@@ -39,9 +39,10 @@ public class GameManager : MonoBehaviour
         FindAnyObjectByType<SaveLoadDataManager>().SaveCurrentLevel(_level);
         SceneManager.LoadScene(nextIndex);
     }    
+
     public void ExitToMenu()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("Main"); 
     }
     public void OnDie()
     {
