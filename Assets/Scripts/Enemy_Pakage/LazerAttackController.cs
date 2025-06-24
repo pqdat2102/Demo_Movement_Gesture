@@ -37,35 +37,61 @@ public class LazerAttackController : MonoBehaviour
     private void Update()
     {
         HandleAttackBehavior();
+        //HandleDamageBehavior();
     }
 
-    private void HandleDamageBehavior()
-    {
-        // Kiểm tra xem người chơi và targetCursor có tồn tại không
-        if (player == null || targetCursor == null)
-            return;
+    //private void HandleDamageBehavior()
+    //{
+    //    if (targetCursor == null || !isAttacking)
+    //        return;
 
-        // Kiểm tra khoảng cách giữa người chơi và targetCursor
-        if (Vector3.Distance(player.position, targetCursor.position) <= damageRange)
-        {
-            // Người chơi trong phạm vi, đếm thời gian để gây sát thương
-            damageTimer += Time.deltaTime;
-            if (damageTimer >= damageInterval)
-            {
-                DealDamagePlayer();
-                damageTimer = 0f; // Reset timer sau khi gây sát thương
-            }
-        }
-        else
-        {
-            // Người chơi ngoài phạm vi, reset timer
-            damageTimer = 0f;
-        }
-    }
+    //    // Điểm bắt đầu và kết thúc của tia laser
+    //    Vector3 laserStart = transform.position;
+    //    Vector3 laserEnd = targetCursor.position;
+    //    Vector3 laserDirection = (laserEnd - laserStart).normalized;
+    //    float laserLength = Vector3.Distance(laserStart, laserEnd);
 
-    private void DealDamagePlayer()
+    //    // Tìm tất cả vật thể có layer "Player"
+    //    int playerLayer = LayerMask.NameToLayer("Player");
+    //    Collider[] hitColliders = Physics.OverlapSphere(laserStart, laserLength + damageRange, 1 << playerLayer);
+
+    //    foreach (Collider hitCollider in hitColliders)
+    //    {
+    //        Vector3 objectPos = hitCollider.transform.position;
+
+    //        // Vector từ laserStart đến vật thể
+    //        Vector3 objectVector = objectPos - laserStart;
+
+    //        // Chiếu vector vật thể lên hướng laser
+    //        float projection = Vector3.Dot(objectVector, laserDirection);
+
+    //        // Kiểm tra xem vật thể có nằm trong vùng hình trụ của tia laser
+    //        if (projection >= 0 && projection <= laserLength)
+    //        {
+    //            // Tính điểm gần nhất trên trục laser
+    //            Vector3 closestPoint = laserStart + laserDirection * projection;
+
+    //            // Kiểm tra khoảng cách từ vật thể đến trục laser
+    //            if (Vector3.Distance(objectPos, closestPoint) <= damageRange)
+    //            {
+    //                damageTimer += Time.deltaTime;
+    //                if (damageTimer >= damageInterval)
+    //                {
+    //                    DealDamagePlayer();
+    //                    damageTimer = 0f;
+    //                }
+    //                continue;
+    //            }
+    //        }
+    //    }
+
+    //    if (hitColliders.Length == 0)
+    //        damageTimer = 0f;
+    //}
+
+    public void DealDamagePlayer()
     {
-        transform.GetComponent<PlayerHealthController>().DealDamage(10);
+        FindAnyObjectByType<PlayerHealthController>().DealDamage(10);
     }
 
     private void HandleAttackBehavior()

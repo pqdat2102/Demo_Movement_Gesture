@@ -68,6 +68,13 @@ public class SaveLoadDataManager : MonoBehaviour
             }
 
             playerData = JsonUtility.FromJson<PlayerData>(jsonData);
+
+            if (playerData.currentLevel > GetComponent<GameManager>()._level)
+            {
+                playerData = new();
+                DeleteData();
+            }    
+
             _isLoadData = true;
             Debug.Log("Data loaded from: " + saveFilePath);
         }

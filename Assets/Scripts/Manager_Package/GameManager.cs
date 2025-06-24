@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
             return;
         }    
 
-        FindAnyObjectByType<SaveLoadDataManager>().SaveCurrentLevel(_level);
+        FindAnyObjectByType<SaveLoadDataManager>().SaveCurrentLevel(_level+1);
         SceneManager.LoadScene(nextIndex);
     }    
 

@@ -82,7 +82,7 @@ public class PlayerHealthController : MonoBehaviour
     public void UpdateHealthFX()
     {
         float healthNormalized = 1 - Mathf.Clamp01(_health / MaxHealth);
-        Debug.Log("Health Normalized: " + healthNormalized);
+        //Debug.Log("Health Normalized: " + healthNormalized);
         HealthFX.SetFloat("_BloodIntensity", healthNormalized);
     }
 }

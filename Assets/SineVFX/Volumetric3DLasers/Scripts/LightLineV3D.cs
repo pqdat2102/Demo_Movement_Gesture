@@ -82,7 +82,7 @@ public class LightLineV3D : MonoBehaviour
             lights[i].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < positionArrayLenght; i++)
+        for (int i = 0; i < positionArrayLenght - 1 ; i++)
         {
             lights[i].color = finalColor;
             lights[i].gameObject.SetActive(true);
