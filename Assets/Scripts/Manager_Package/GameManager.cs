@@ -70,4 +70,22 @@ public class GameManager : MonoBehaviour
         var _level = GetComponent<SaveLoadDataManager>().GetSavedLevel();
         SceneManager.LoadScene(_level);
     }    
+
+    public void MuteAudio()
+    {
+        var audios = FindObjectsOfType<AudioSource>();
+        foreach (var au in audios)
+        {
+            au.enabled = false;
+        }
+    }
+
+    public void UnMuteAudio()
+    {
+        var audios = FindObjectsOfType<AudioSource>();
+        foreach (var au in audios)
+        {
+            au.enabled = true;
+        }
+    }
 }
