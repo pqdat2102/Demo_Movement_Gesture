@@ -18,6 +18,10 @@ public class SpaceShipHealthController : MonoBehaviour
     [Header("Behavior Setting")]
     public UnityEvent OnDie;
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L) && !_isPlayer) Die();
+    }
     public virtual void Damaged(int damage)
     {
         Debug.Log($"{gameObject.name} took {damage} damage!");

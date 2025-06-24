@@ -9670,7 +9670,7 @@ MonoBehaviour:
   particleDuration: 2
   dashCooldownDefault: 2
   dashCooldownDelta: -1
-  dashTime: 0.4
+  dashTime: 1
   dashTimeDelta: 0.2
   cooldownBonus: 0
 --- !u!4 &358540276
