@@ -128,6 +128,28 @@ public class SaveLoadDataManager : MonoBehaviour
         }
     }
 
+    public void DeleteData()
+    {
+        try
+        {
+            if (File.Exists(saveFilePath))
+            {
+                File.Delete(saveFilePath);
+                playerData = new PlayerData();
+                _isLoadData = false;
+                Debug.Log("Data deleted and reset to default values.");
+            }
+            else
+            {
+                Debug.LogWarning("No save file found to delete.");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Failed to delete data: " + e.Message);
+        }
+    }
+
     public int GetSavedLevel()
     {
         return playerData.currentLevel;

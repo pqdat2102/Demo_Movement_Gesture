@@ -50,6 +50,12 @@ public class GameManager : MonoBehaviour
         StartCoroutine(WaitToExit(4f));
     }
 
+    public void StartNewGame()
+    {
+        FindAnyObjectByType<SaveLoadDataManager>().DeleteData();
+        NextLevel();
+    }
+
     IEnumerator WaitToExit(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
